@@ -1,1 +1,2 @@
-# marl
+# marl (multi-agent reinforcement learning)
+
