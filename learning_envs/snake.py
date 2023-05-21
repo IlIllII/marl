@@ -127,8 +127,23 @@ if __name__ == "__main__":
                 pygame.draw.rect(screen, (0, 255, 0), (i*50, j*50, 50, 50), 1)
                 if game_state.board.grid[i, j] > 0:
                     pygame.draw.rect(screen, (255, 255, 255), (i*50, j*50, 50, 50))
-                elif game_state.board.grid[i, j] < 0:
+                if game_state.board.grid[i, j] < 0:
                     pygame.draw.rect(screen, (255, 0, 0), (i*50, j*50, 50, 50))
+        head_coords = game_state.snake.head()
+        head_coords[0] = head_coords[0] % game_state.width
+        head_coords[1] = head_coords[1] % game_state.height
+        pygame.draw.rect(screen, (0, 255, 255), (head_coords[0]*50, head_coords[1]*50, 50, 50))        
+        for i, (x, y) in enumerate(game_state.snake):
+            x = x % game_state.width
+            y = y % game_state.height
+            prev = next
+            next = (x, y)
+            if i == 0:
+                continue
+
+            if np.sum(np.abs(np.array(prev) - np.array(next))) == 1:
+                pygame.draw.line(screen, (0, 0, 0), (prev[0]*50+25, prev[1]*50+25), (next[0]*50+25, next[1]*50+25))
+
         pygame.display.flip()
         clock.tick(5)
     pygame.quit()
